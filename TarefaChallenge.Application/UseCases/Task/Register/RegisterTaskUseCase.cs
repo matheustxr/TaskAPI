@@ -10,7 +10,7 @@ public class RegisterTaskUseCase
         return new ResponseRegisterTaskJson
         {
             Id = Guid.NewGuid(),
-            Task = "teste primeira task",
+            Name = "teste primeira task",
             Priority = 1,
             DateLimit = new DateTime(year: 2020, month: 1, day: 1),
             Status = 2
