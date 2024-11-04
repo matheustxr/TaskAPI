@@ -26,24 +26,24 @@ public class TaskController : ControllerBase
     [HttpPut]
     [Route("{Id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
     public IActionResult Update([FromRoute] Guid Id, [FromBody] RequestRegisterTaskJson request)
     {
-        var useCase = new UpdateTaskUseCase();
-
-        var errors = new ResponseErrorJson();
-
         try
         {
+            var useCase = new UpdateTaskUseCase();
+
             useCase.Execute(Id, request);
 
             return NoContent();
         }
         catch (ArgumentException ex)
         {
-            errors.Errors.Add(ex.Message);
-            return BadRequest(errors);
+            var responseError = new ResponseErrorJson
+            {
+                Errors = new List<string> { ex.Message }
+            };
+            return NotFound(responseError);
         }
     }
 
@@ -70,11 +70,22 @@ public class TaskController : ControllerBase
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
     public IActionResult GetById([FromRoute] Guid Id)
     {
-        var useCase = new GetByIdUseCase();
+        try
+        {
+            var useCase = new GetByIdUseCase();
 
-        var response = useCase.Execute(Id);
+            var response = useCase.Execute(Id);
 
-        return Ok(response);
+            return Ok(response);
+        }
+        catch (ArgumentException ex)
+        {
+            var responseError = new ResponseErrorJson
+            {
+                Errors = new List<string> { ex.Message }
+            };
+            return NotFound(responseError);
+        }
     }
 
     [HttpDelete]
