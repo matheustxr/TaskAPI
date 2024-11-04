@@ -8,7 +8,7 @@ public class GetByIdUseCase
     {
         Guid IdFake = new Guid("d06da52f-04d0-489b-b254-06c9b7192c50");
 
-        if (Id != IdFake)
+        if (IdFake != Id)
         {
             throw new ArgumentException("O id fornecido é inválido");
         }
