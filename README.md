@@ -80,7 +80,7 @@ The solution is organized into three main layers to promote separation of concer
    dotnet run --project TaskChallenge.API
 
 
-** PT-BR **
+**PT-BR**
 # Task API 
 
 ### Descrição
